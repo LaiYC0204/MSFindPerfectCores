@@ -1,0 +1,302 @@
+[
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u82f1\u96c4",
+        "EN_job_name": "Hero"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u8056\u9a0e\u58eb",
+        "EN_job_name": "Paladin"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u9ed1\u9a0e\u58eb",
+        "EN_job_name": "DarkKnight"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u4e3b\u6559",
+        "EN_job_name": "Bishop"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u51b0\u96f7\u5927\u9b54\u5cf6\u58eb",
+        "EN_job_name": "ILArchmage"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u706b\u6bd2\u5927\u9b54\u5cf6\u58eb",
+        "EN_job_name": "FPArchmage"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u5f13\u7bad\u624b",
+        "CH_job_name": "\u7bad\u795e",
+        "EN_job_name": "Bowmaster"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u5f13\u7bad\u624b",
+        "CH_job_name": "\u795e\u5c04\u624b",
+        "EN_job_name": "Marksman"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u5f13\u7bad\u624b",
+        "CH_job_name": "\u958b\u62d3\u8005",
+        "EN_job_name": "Pathfinder"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u591c\u4f7f\u8005",
+        "EN_job_name": "Nightlord"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u6697\u5f71\u795e\u5077",
+        "EN_job_name": "Shadower"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u5f71\u6b66\u8005",
+        "EN_job_name": "DualBlade"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u69cd\u795e",
+        "EN_job_name": "Corsair"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u62f3\u9738",
+        "EN_job_name": "Buccaneer"
+    },
+    {
+        "job_group": "\u5192\u96aa\u5bb6",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u91cd\u7832\u6307\u63ee\u5b98",
+        "EN_job_name": "Cannoneer"
+    },
+    {
+        "job_group": "\u7687\u5bb6\u9a0e\u58eb\u5718",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u8056\u9b42\u528d\u58eb",
+        "EN_job_name": "SoulMaster"
+    },
+    {
+        "job_group": "\u7687\u5bb6\u9a0e\u58eb\u5718",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u7c73\u54c8\u9038",
+        "EN_job_name": "Mikhail"
+    },
+    {
+        "job_group": "\u7687\u5bb6\u9a0e\u58eb\u5718",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u70c8\u7130\u5deb\u5e2b",
+        "EN_job_name": "BlazeWizard"
+    },
+    {
+        "job_group": "\u7687\u5bb6\u9a0e\u58eb\u5718",
+        "job": "\u5f13\u7bad\u624b",
+        "CH_job_name": "\u7834\u98a8\u4f7f\u8005",
+        "EN_job_name": "WindArcher"
+    },
+    {
+        "job_group": "\u7687\u5bb6\u9a0e\u58eb\u5718",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u6697\u591c\u884c\u8005",
+        "EN_job_name": "NightWalker"
+    },
+    {
+        "job_group": "\u7687\u5bb6\u9a0e\u58eb\u5718",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u9583\u96f7\u608d\u5c07",
+        "EN_job_name": "ThunderBreaker"
+    },
+    {
+        "job_group": "\u82f1\u96c4\u5718",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u72c2\u72fc\u52c7\u58eb",
+        "EN_job_name": "Aran"
+    },
+    {
+        "job_group": "\u82f1\u96c4\u5718",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u9f8d\u9b54\u5c0e\u58eb",
+        "EN_job_name": "Evan"
+    },
+    {
+        "job_group": "\u82f1\u96c4\u5718",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u591c\u5149",
+        "EN_job_name": "Luminous"
+    },
+    {
+        "job_group": "\u82f1\u96c4\u5718",
+        "job": "\u5f13\u7bad\u624b",
+        "CH_job_name": "\u7cbe\u9748\u904a\u4fe0",
+        "EN_job_name": "Mercedes"
+    },
+    {
+        "job_group": "\u82f1\u96c4\u5718",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u5e7b\u5f71\u4fe0\u76dc",
+        "EN_job_name": "Phantom"
+    },
+    {
+        "job_group": "\u82f1\u96c4\u5718",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u96b1\u6708",
+        "EN_job_name": "Shade"
+    },
+    {
+        "job_group": "\u672b\u65e5\u53cd\u6297\u8ecd",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u7206\u62f3\u69cd\u795e",
+        "EN_job_name": "Blaster"
+    },
+    {
+        "job_group": "\u672b\u65e5\u53cd\u6297\u8ecd",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u60e1\u9b54\u6bba\u624b",
+        "EN_job_name": "DemonSlayer"
+    },
+    {
+        "job_group": "\u672b\u65e5\u53cd\u6297\u8ecd",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u60e1\u9b54\u5fa9\u4ec7\u8005",
+        "EN_job_name": "DemonAvenger"
+    },
+    {
+        "job_group": "\u672b\u65e5\u53cd\u6297\u8ecd",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u7149\u7344\u5deb\u5e2b",
+        "EN_job_name": "BattleMage"
+    },
+    {
+        "job_group": "\u672b\u65e5\u53cd\u6297\u8ecd",
+        "job": "\u5f13\u7bad\u624b",
+        "CH_job_name": "\u72c2\u8c79\u7375\u4eba",
+        "EN_job_name": "WildHunter"
+    },
+    {
+        "job_group": "\u672b\u65e5\u53cd\u6297\u8ecd",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u5091\u8afe",
+        "EN_job_name": "Xenon"
+    },
+    {
+        "job_group": "\u672b\u65e5\u53cd\u6297\u8ecd",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u6a5f\u7532\u6230\u795e",
+        "EN_job_name": "Mechanic"
+    },
+    {
+        "job_group": "\u8d85\u65b0\u661f",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u51f1\u85a9",
+        "EN_job_name": "Kaiser"
+    },
+    {
+        "job_group": "\u8d85\u65b0\u661f",
+        "job": "\u5f13\u7bad\u624b",
+        "CH_job_name": "\u51f1\u6bb7",
+        "EN_job_name": "Kain"
+    },
+    {
+        "job_group": "\u8d85\u65b0\u661f",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u5361\u8482\u5a1c",
+        "EN_job_name": "Cadena"
+    },
+    {
+        "job_group": "\u8d85\u65b0\u661f",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u5929\u4f7f\u7834\u58de\u8005",
+        "EN_job_name": "AngelicBuster"
+    },
+    {
+        "job_group": "\u96f7\u666e\u65cf",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u963f\u6234\u723e",
+        "EN_job_name": "Adele"
+    },
+    {
+        "job_group": "\u96f7\u666e\u65cf",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u4f0a\u5229\u6069",
+        "EN_job_name": "Illium"
+    },
+    {
+        "job_group": "\u96f7\u666e\u65cf",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u5361\u8389",
+        "EN_job_name": "Khali"
+    },
+    {
+        "job_group": "\u96f7\u666e\u65cf",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u4e9e\u514b",
+        "EN_job_name": "Ark"
+    },
+    {
+        "job_group": "\u963f\u5c3c\u746a",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u83c8\u83c8",
+        "EN_job_name": "Lara"
+    },
+    {
+        "job_group": "\u963f\u5c3c\u746a",
+        "job": "\u76dc\u8cca",
+        "CH_job_name": "\u864e\u5f71",
+        "EN_job_name": "Hoyoung"
+    },
+    {
+        "job_group": "\u670b\u53cb\u4e16\u754c",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u51f1\u5167\u897f\u65af",
+        "EN_job_name": "Kinesis"
+    },
+    {
+        "job_group": "\u8d85\u8d8a\u8005",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u795e\u4e4b\u5b50",
+        "EN_job_name": "Zero"
+    },
+    {
+        "job_group": "\u6d77\u5916\u8077\u696d",
+        "job": "\u528d\u58eb",
+        "CH_job_name": "\u528d\u8c6a",
+        "EN_job_name": "Hayato"
+    },
+    {
+        "job_group": "\u6d77\u5916\u8077\u696d",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u9670\u967d\u5e2b",
+        "EN_job_name": "Kanna"
+    },
+    {
+        "job_group": "\u6d77\u5916\u8077\u696d",
+        "job": "\u6cd5\u5e2b",
+        "CH_job_name": "\u5e7b\u7378\u5e2b",
+        "EN_job_name": "BeastTamer"
+    },
+    {
+        "job_group": "\u6d77\u5916\u8077\u696d",
+        "job": "\u6d77\u76dc",
+        "CH_job_name": "\u58a8\u7384",
+        "EN_job_name": "MoXuan"
+    }
+]
