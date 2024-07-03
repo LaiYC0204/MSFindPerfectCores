@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>573</width>
-    <height>476</height>
+    <height>453</height>
    </rect>
   </property>
   <property name="cursor">
@@ -562,32 +562,6 @@
      <string>儲存</string>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>330</y>
-      <width>551</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>擁有核心</string>
-    </property>
-    <widget class="QScrollBar" name="horizontalScrollBar">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>70</y>
-       <width>551</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="buttonMainCore">
     <property name="geometry">
      <rect>
@@ -626,6 +600,105 @@
     <property name="text">
      <string>第三核心</string>
     </property>
+   </widget>
+   <widget class="QLabel" name="labelMainCore">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>170</y>
+      <width>47</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelSecondCore">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>260</y>
+      <width>47</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelThirdCore">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>260</y>
+      <width>47</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonAddCore">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>290</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>新增核心</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>320</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>擁有核心</string>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="scrollArea">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>340</y>
+      <width>551</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>549</width>
+       <height>78</height>
+      </rect>
+     </property>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>551</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout"/>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

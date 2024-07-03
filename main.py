@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QLabel
 import json
 import os
 
@@ -18,7 +19,7 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
 
         # 設定變數
         self.data = self.read_job_data()
-        self.selectPerfectCores = [False] * 15
+        self.select_perfect_cores = [False] * 15
         # 技能按鈕
         self.button_skill_list = [
             self.buttonSkill_1, self.buttonSkill_2, self.buttonSkill_3,
@@ -27,6 +28,12 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             self.buttonSkill_10, self.buttonSkill_11, self.buttonSkill_12,
             self.buttonSkill_13, self.buttonSkill_14, self.buttonSkill_15
         ]
+        # 核心文字
+        self.label_select_cores = [self.labelMainCore, self.labelSecondCore, self.labelThirdCore]
+        # 核心
+        self.select_skills = [-1, -1, -1]
+        # 需要篩選核心
+        self.cores = []
 
         # 初始化下拉式選單
         self.update_job_name()
@@ -38,8 +45,14 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         # 當職業名稱下拉列表變化時，更新技能按鈕圖示
         self.jobName.currentIndexChanged.connect(self.update_skill_image)
         # 載入、儲存使用者資料
-        self.buttonLoad.clicked.connect(self.update_select_perfect_cores)
+        self.buttonLoad.clicked.connect(self.get_select_perfect_cores)
         self.buttonSave.clicked.connect(self.set_select_perfect_cores)
+        # 選擇核心
+        self.buttonMainCore.clicked.connect(lambda: self.select_core_buttons('主要核心'))
+        self.buttonSecondCore.clicked.connect(lambda: self.select_core_buttons('第二核心'))
+        self.buttonThirdCore.clicked.connect(lambda: self.select_core_buttons('第三核心'))
+
+        self.buttonAddCore.clicked.connect(self.add_cores)
 
     # 讀取職業JSON文件
     def read_job_data(self):
@@ -70,7 +83,7 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.jobName.clear()
         self.jobName.addItems(matching_job_names)
 
-    #選擇不同職業名稱，更新技能列表
+    # 選擇不同職業名稱，更新技能列表
     def update_skill_image(self):
         #所選下拉式選單文字
         selected_job_name = self.jobName.currentText()
@@ -84,7 +97,7 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             skill_path = f"{jobname_folder_path}/{str(skill_index).zfill(2)}.png"
             button_name = "buttonSkill_" + str(skill_index)
             button = getattr(self, button_name) # 抓取同名稱的物件
-
+            button.setEnabled(True)
             # 檢查圖片是否存在
             if os.path.exists(skill_path):
                 icon = QIcon(skill_path)  # 如果存在，使用該圖片
@@ -92,14 +105,76 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
                 button.setIconSize(icon.actualSize(icon.availableSizes()[0])) # 設置圖標尺寸
             else:
                 button.setIcon(QIcon()) # 否則使用空圖標
+                button.setEnabled(False)
 
-    def update_select_perfect_cores(self):
-        for i, button in enumerate(self.button_skill_list):
-            button.setChecked(self.selectPerfectCores[i])
-
+    # 更新完美核心按鈕的checked狀態
     def set_select_perfect_cores(self):
         for i, button in enumerate(self.button_skill_list):
-            self.selectPerfectCores[i] = button.isChecked()
+            button.setChecked(self.select_perfect_cores[i])
+
+    # 設定完美核心按鈕的checked狀態
+    def get_select_perfect_cores(self):
+        for i, button in enumerate(self.button_skill_list):
+            self.select_perfect_cores[i] = button.isChecked()
+
+    # 關閉完美核心按鈕的checked
+    def close_select_perfect_cores(self):
+        for button in self.button_skill_list:
+            button.setCheckable(False)
+
+    # 開啟完美核心按鈕的checked
+    def open_select_perfect_cores(self):
+        for button in self.button_skill_list:
+            button.setCheckable(True)
+
+    # 設定篩選核心文字
+    def set_select_core_buttons(self):
+        for index, label in enumerate(self.label_select_cores):
+            label.setText(f"技能：{str(self.select_skills[index] + 1)}")
+
+    # 點選篩選核心按鈕後設定完美核心group
+    def select_core_buttons(self, button_text):
+        self.get_select_perfect_cores()
+        self.close_select_perfect_cores()
+        self.selectPerfectCoresGroupBox.setTitle(f"選擇{button_text}")
+
+        for index, button in enumerate(self.button_skill_list):
+            # 斷開button之前的連接
+            try:
+                button.clicked.disconnect()
+            except TypeError:
+                pass  # 如果沒有連接就忽略這個錯誤
+
+            button.clicked.connect(lambda checked, index=index, button_text=button_text: self.select_perfect_core(index, button_text))
+
+    # 點選完美核心group設定篩選核心
+    def select_perfect_core(self, perfect_core_button_ID, button_text):
+        if button_text == '主要核心':
+            self.select_skills[0] = perfect_core_button_ID
+        elif button_text == '第二核心':
+            self.select_skills[1] = perfect_core_button_ID
+        elif button_text == '第三核心':
+            self.select_skills[2] = perfect_core_button_ID
+        self.set_select_core_buttons()
+
+
+        for button in self.button_skill_list:
+            # 斷開button之前的連接
+            try:
+                button.clicked.disconnect()
+            except TypeError:
+                pass  # 如果沒有連接就忽略這個錯誤
+
+        self.open_select_perfect_cores()
+        self.set_select_perfect_cores()
+        self.selectPerfectCoresGroupBox.setTitle("完美核心")
+
+    def add_cores(self):
+        self.cores.append(self.select_skills)
+
+        label = QLabel(f"{self.select_skills}", self.scrollAreaWidgetContents)
+        self.horizontalLayout.addWidget(label)
+        self.scrollArea.horizontalScrollBar().setValue(self.scrollArea.horizontalScrollBar().maximum())
 
 if __name__ == '__main__':
     import sys
