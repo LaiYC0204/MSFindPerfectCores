@@ -1,10 +1,12 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QLabel
+from find import find_core_combinations
 import json
 import os
 
 import MSFindPerfectCoresUI
+import formPerfectCores
 
 """
 connect某物件做某動作連接到某function，function可以疊加
@@ -51,8 +53,10 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.buttonMainCore.clicked.connect(lambda: self.select_core_buttons('主要核心'))
         self.buttonSecondCore.clicked.connect(lambda: self.select_core_buttons('第二核心'))
         self.buttonThirdCore.clicked.connect(lambda: self.select_core_buttons('第三核心'))
-
+        # 新增核心
         self.buttonAddCore.clicked.connect(self.add_cores)
+        # 篩選核心
+        self.buttonFindPerfectCore.clicked.connect(self.find_perfect_cores)
 
     # 讀取職業JSON文件
     def read_job_data(self):
@@ -107,12 +111,12 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
                 button.setIcon(QIcon()) # 否則使用空圖標
                 button.setEnabled(False)
 
-    # 更新完美核心按鈕的checked狀態
+    # 設定完美核心按鈕的checked狀態
     def set_select_perfect_cores(self):
         for i, button in enumerate(self.button_skill_list):
             button.setChecked(self.select_perfect_cores[i])
 
-    # 設定完美核心按鈕的checked狀態
+    # 抓取完美核心按鈕的checked狀態
     def get_select_perfect_cores(self):
         for i, button in enumerate(self.button_skill_list):
             self.select_perfect_cores[i] = button.isChecked()
@@ -149,6 +153,10 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
 
     # 點選完美核心group設定篩選核心
     def select_perfect_core(self, perfect_core_button_ID, button_text):
+        if perfect_core_button_ID in self.select_skills:
+            self.labelSelectError.setText('核心不能一樣')
+            return
+
         if button_text == '主要核心':
             self.select_skills[0] = perfect_core_button_ID
         elif button_text == '第二核心':
@@ -168,13 +176,59 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.open_select_perfect_cores()
         self.set_select_perfect_cores()
         self.selectPerfectCoresGroupBox.setTitle("完美核心")
+        self.labelSelectError.setText('')
 
+    # 新增核心到列表中
     def add_cores(self):
+        if -1 in self.select_skills:
+            self.labelSelectError.setText('有未篩選核心')
+            return
+        
         self.cores.append(self.select_skills)
 
+        # 將資料變成label放到 擁有核心 列表內
         label = QLabel(f"{self.select_skills}", self.scrollAreaWidgetContents)
         self.horizontalLayout.addWidget(label)
         self.scrollArea.horizontalScrollBar().setValue(self.scrollArea.horizontalScrollBar().maximum())
+
+        self.select_skills = [-1, -1, -1]
+        self.set_select_core_buttons()
+
+    def find_perfect_cores(self):
+        if not self.cores:
+            self.labelSelectError.setText('核心列表是空的')
+            return
+        
+        # 設 '1' 列出所有解, 設 '2' 列第一組合乎成本解
+        if self.comboBoxSelectMode.currentText() == '第一組合乎成本完美核心':
+            enumerate_mode = 2  
+        elif self.comboBoxSelectMode.currentText() == '所有完美核心':
+            enumerate_mode = 1
+        selected_perfect_cores = [] # 完美核心
+        cores = self.cores # 請在陣列s1中輸入您持有的核心，用來找四核六技，以','分隔
+        core_count = len(cores)  # 核心總數量
+
+        self.get_select_perfect_cores()
+        for index, core in enumerate(self.select_perfect_cores):
+            if core:
+                selected_perfect_cores.append(index)
+
+        if not selected_perfect_cores:
+            self.labelSelectError.setText('請選擇完美核心')
+            return
+        
+        perfect_core_combination = find_core_combinations(cores, core_count, enumerate_mode, selected_perfect_cores)
+        text = ''
+        for index, perfect_core in enumerate(perfect_core_combination):
+            text += f'-----第{index + 1}組解-----\n'
+            for i, core in enumerate(perfect_core):
+                text += f'第{i + 1}顆核心：{core}\n'
+
+        self.sub_window = QtWidgets.QWidget()  # 創建一個 QWidget 作為副視窗
+        self.ui = formPerfectCores.Ui_formPerfectCores()
+        self.ui.setupUi(self.sub_window)
+        self.ui.label.setText(text)
+        self.sub_window.show()
 
 if __name__ == '__main__':
     import sys

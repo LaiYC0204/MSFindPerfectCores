@@ -562,97 +562,6 @@
      <string>儲存</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="buttonMainCore">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>130</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>主要核心</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonSecondCore">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>220</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>第二核心</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonThirdCore">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>220</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>第三核心</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelMainCore">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>170</y>
-      <width>47</width>
-      <height>12</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelSecondCore">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>260</y>
-      <width>47</width>
-      <height>12</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelThirdCore">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>260</y>
-      <width>47</width>
-      <height>12</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonAddCore">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>290</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>新增核心</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
@@ -699,6 +608,156 @@
       <layout class="QHBoxLayout" name="horizontalLayout"/>
      </widget>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="buttonFindPerfectCore">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>270</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>搜尋完美核心</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>50</y>
+      <width>191</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>選擇核心</string>
+    </property>
+    <widget class="QPushButton" name="buttonMainCore">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>20</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>主要核心</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelMainCore">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>50</y>
+       <width>47</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonThirdCore">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>80</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>第三核心</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelThirdCore">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>110</y>
+       <width>47</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonSecondCore">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>第二核心</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelSecondCore">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>110</y>
+       <width>47</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonAddCore">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>130</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>新增</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelSelectError">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QComboBox" name="comboBoxSelectMode">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>230</y>
+      <width>191</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>第一組合乎成本完美核心</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>所有完美核心</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
