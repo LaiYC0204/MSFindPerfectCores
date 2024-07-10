@@ -30,8 +30,6 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             self.buttonSkill_10, self.buttonSkill_11, self.buttonSkill_12,
             self.buttonSkill_13, self.buttonSkill_14, self.buttonSkill_15
         ]
-        # 核心文字
-        self.label_select_cores = [self.labelMainCore, self.labelSecondCore, self.labelThirdCore]
         # 核心
         self.select_skills = [-1, -1, -1]
         # 需要篩選核心
@@ -131,10 +129,14 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         for button in self.button_skill_list:
             button.setCheckable(True)
 
-    # 設定篩選核心文字
-    def set_select_core_buttons(self):
-        for index, label in enumerate(self.label_select_cores):
-            label.setText(f"技能：{str(self.select_skills[index] + 1)}")
+    # 重製選擇核心按鈕
+    def reset_select_core_buttons(self):
+        self.buttonMainCore.setIcon(QIcon())
+        self.buttonMainCore.setText("主要")
+        self.buttonSecondCore.setIcon(QIcon())
+        self.buttonSecondCore.setText("第二")
+        self.buttonThirdCore.setIcon(QIcon())
+        self.buttonThirdCore.setText("第三")
 
     # 點選篩選核心按鈕後設定完美核心group
     def select_core_buttons(self, button_text):
@@ -148,23 +150,28 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
                 button.clicked.disconnect()
             except TypeError:
                 pass  # 如果沒有連接就忽略這個錯誤
-
-            button.clicked.connect(lambda checked, index=index, button_text=button_text: self.select_perfect_core(index, button_text))
+            
+            button.clicked.connect(lambda checked, index=index, button_text=button_text, button_icon=button.icon(): self.select_perfect_core(index, button_text, button_icon))
 
     # 點選完美核心group設定篩選核心
-    def select_perfect_core(self, perfect_core_button_ID, button_text):
+    def select_perfect_core(self, perfect_core_button_ID, button_text, button_icon):
         if perfect_core_button_ID in self.select_skills:
             self.labelSelectError.setText('核心不能一樣')
             return
 
         if button_text == '主要核心':
             self.select_skills[0] = perfect_core_button_ID
+            button = self.buttonMainCore
         elif button_text == '第二核心':
             self.select_skills[1] = perfect_core_button_ID
+            button = self.buttonSecondCore
         elif button_text == '第三核心':
             self.select_skills[2] = perfect_core_button_ID
-        self.set_select_core_buttons()
+            button = self.buttonThirdCore
 
+        button.setIcon(button_icon)
+        button.setIconSize(button_icon.actualSize(button_icon.availableSizes()[0])) # 設置圖標尺寸
+        button.setText("")
 
         for button in self.button_skill_list:
             # 斷開button之前的連接
@@ -192,7 +199,7 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.scrollArea.horizontalScrollBar().setValue(self.scrollArea.horizontalScrollBar().maximum())
 
         self.select_skills = [-1, -1, -1]
-        self.set_select_core_buttons()
+        self.reset_select_core_buttons()
 
     def find_perfect_cores(self):
         if not self.cores:
@@ -223,6 +230,8 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             text += f'-----第{index + 1}組解-----\n'
             for i, core in enumerate(perfect_core):
                 text += f'第{i + 1}顆核心：{core}\n'
+
+        self.labelSelectError.setText('')
 
         self.sub_window = QtWidgets.QWidget()  # 創建一個 QWidget 作為副視窗
         self.ui = formPerfectCores.Ui_formPerfectCores()
