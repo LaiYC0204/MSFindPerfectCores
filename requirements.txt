@@ -1,0 +1,5 @@
+Pillow==10.2.0
+PyAutoGUI==0.9.54
+PyQt5==5.15.10
+numpy==1.26.4
+opencv_python==4.9.0.80

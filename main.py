@@ -1,6 +1,5 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QLabel
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtGui import QIcon, QPixmap, QPainter, QPolygonF, QPainterPath, QColor, QPen
 from find import find_core_combinations
 import json
 import os
@@ -18,6 +17,9 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        # 設定對齊方法靠左
+        self.horizontalLayout.setAlignment(QtCore.Qt.AlignLeft)  
 
         # 設定變數
         self.data = self.read_job_data()
@@ -193,13 +195,14 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         
         self.cores.append(self.select_skills)
 
-        # 將資料變成label放到 擁有核心 列表內
-        label = QLabel(f"{self.select_skills}", self.scrollAreaWidgetContents)
-        self.horizontalLayout.addWidget(label)
-        self.scrollArea.horizontalScrollBar().setValue(self.scrollArea.horizontalScrollBar().maximum())
+        # # 將資料變成label放到 擁有核心 列表內
+        # label = QtWidgets.QLabel(f"{self.select_skills}", self.scrollAreaWidgetContents)
+        # self.horizontalLayout.addWidget(label)
+        # self.scrollArea.horizontalScrollBar().setValue(self.scrollArea.horizontalScrollBar().maximum())
 
         self.select_skills = [-1, -1, -1]
         self.reset_select_core_buttons()
+        self.set_cores_button()
 
     def find_perfect_cores(self):
         if not self.cores:
@@ -238,6 +241,87 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.ui.setupUi(self.sub_window)
         self.ui.label.setText(text)
         self.sub_window.show()
+
+    def synthesis_img(self, icons):
+        width = icons[0].width()
+        height = icons[0].height()
+
+        # 建立一个空的 QPixmap
+        mergedPixmap = QPixmap(width, height)
+        mergedPixmap.fill()
+
+        # 使用 QPainter 合成图标
+        painter = QPainter(mergedPixmap)
+
+        # 主要技能區域
+        triangle1 = QPolygonF([
+            QtCore.QPoint(0, 0),
+            QtCore.QPoint(width // 2, height // 2),
+            QtCore.QPoint(width, 0)
+        ])
+
+        # 第二技能區域
+        triangle2 = QPolygonF([
+            QtCore.QPoint(0, 0),
+            QtCore.QPoint(width // 2, height // 2),
+            QtCore.QPoint(width // 2, height),
+            QtCore.QPoint(0, height)
+        ])
+
+        # 第三技能區域
+        triangle3 = QPolygonF([
+            QtCore.QPoint(width, 0),
+            QtCore.QPoint(width // 2, height // 2),
+            QtCore.QPoint(width // 2, height),
+            QtCore.QPoint(width, height)
+        ])
+
+        triangles = [triangle1, triangle2, triangle3]
+
+        for index in range(0,3):
+            path = QPainterPath()
+            path.addPolygon(triangles[index])
+            painter.setClipPath(path)
+            painter.drawPixmap(0, 0, icons[index])
+
+        # 畫筆顏色灰色
+        painter.setClipping(False)
+        painter.setPen(QPen(QColor('gray'), 2))
+        painter.drawLine(0, 0, width // 2, height // 2)
+        painter.drawLine(width, 0, width // 2, height // 2)
+        painter.drawLine(width // 2, height, width // 2, height // 2)
+
+        # 結束畫布
+        painter.end()
+
+        return mergedPixmap
+    
+    def clear_cores_button(self):
+        while self.horizontalLayout.count():
+            item = self.horizontalLayout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+
+    def set_cores_button(self):
+        self.clear_cores_button()
+        
+        for core in self.cores:
+            icons = []
+            for index in core:
+                temp_button = self.button_skill_list[index]
+                icons.append(temp_button.icon().pixmap(temp_button.iconSize()))
+
+            # 合成圖片
+            icon = self.synthesis_img(icons)
+
+            # 將資料變成button放到 擁有核心列表內
+            button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+            button.setIcon(QIcon(icon))
+            button.setFixedSize(61, 61)  # 設定按鈕大小
+            button.setIconSize(button.size())
+            button.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)  # 設置固定大小
+            self.horizontalLayout.addWidget(button)
 
 if __name__ == '__main__':
     import sys
