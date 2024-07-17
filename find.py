@@ -35,10 +35,10 @@ def find_core_combinations(cores, core_count, enumerate_mode, selected_perfect_c
         # Check if each skill appears exactly twice
         if all(selected[skill_index-1] == 2 for skill_index in selected_perfect_cores):
             # Check for duplicates in the main skills
-            if hold_len == 2:
-                perfect_core_combination.append([cores[hold[0]], cores[hold[1]]])
-            else:
-                perfect_core_combination.append([cores[hold[0]], cores[hold[1]], cores[hold[2]]])
+            perfect_skills = []
+            for i in range(hold_len):
+                perfect_skills.append(cores[hold[i]])
+            perfect_core_combination.append(perfect_skills)
             if enumerate_mode == 2:
                 return perfect_core_combination
             

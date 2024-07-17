@@ -32,10 +32,18 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             self.buttonSkill_10, self.buttonSkill_11, self.buttonSkill_12,
             self.buttonSkill_13, self.buttonSkill_14, self.buttonSkill_15
         ]
+        # 篩選技能按鈕
+        self.button_select_skill_list = [
+            self.buttonMainCore,
+            self.buttonSecondCore,
+            self.buttonThirdCore
+        ]
         # 核心
         self.select_skills = [-1, -1, -1]
-        # 需要篩選核心
+        # 篩選核心列表
         self.cores = []
+        # 需要修改技能
+        self.skill_id = -1
 
         # 初始化下拉式選單
         self.update_job_name()
@@ -54,7 +62,7 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.buttonSecondCore.clicked.connect(lambda: self.select_core_buttons('第二核心'))
         self.buttonThirdCore.clicked.connect(lambda: self.select_core_buttons('第三核心'))
         # 新增核心
-        self.buttonAddCore.clicked.connect(self.add_cores)
+        self.buttonAddCore.clicked.connect(self.add_core)
         # 篩選核心
         self.buttonFindPerfectCore.clicked.connect(self.find_perfect_cores)
 
@@ -139,6 +147,17 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.buttonSecondCore.setText("第二")
         self.buttonThirdCore.setIcon(QIcon())
         self.buttonThirdCore.setText("第三")
+        self.select_skills = [-1, -1, -1]
+
+    # 設定篩選核心按鈕icon
+    def set_select_core_buttons(self):
+        for index in range(3):
+            skill = self.select_skills[index]
+            if skill != -1:
+                temp_button = self.button_skill_list[skill]
+                self.button_select_skill_list[index].setIcon(temp_button.icon())
+                self.button_select_skill_list[index].setIconSize(temp_button.size())
+                self.button_select_skill_list[index].setText("")
 
     # 點選篩選核心按鈕後設定完美核心group
     def select_core_buttons(self, button_text):
@@ -153,27 +172,22 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             except TypeError:
                 pass  # 如果沒有連接就忽略這個錯誤
             
-            button.clicked.connect(lambda checked, index=index, button_text=button_text, button_icon=button.icon(): self.select_perfect_core(index, button_text, button_icon))
+            button.clicked.connect(lambda checked, index=index, button_text=button_text: self.select_perfect_core(index, button_text))
 
     # 點選完美核心group設定篩選核心
-    def select_perfect_core(self, perfect_core_button_ID, button_text, button_icon):
+    def select_perfect_core(self, perfect_core_button_ID, button_text):
         if perfect_core_button_ID in self.select_skills:
             self.labelSelectError.setText('核心不能一樣')
             return
 
         if button_text == '主要核心':
             self.select_skills[0] = perfect_core_button_ID
-            button = self.buttonMainCore
         elif button_text == '第二核心':
             self.select_skills[1] = perfect_core_button_ID
-            button = self.buttonSecondCore
         elif button_text == '第三核心':
             self.select_skills[2] = perfect_core_button_ID
-            button = self.buttonThirdCore
 
-        button.setIcon(button_icon)
-        button.setIconSize(button_icon.actualSize(button_icon.availableSizes()[0])) # 設置圖標尺寸
-        button.setText("")
+        self.set_select_core_buttons()
 
         for button in self.button_skill_list:
             # 斷開button之前的連接
@@ -188,22 +202,21 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.labelSelectError.setText('')
 
     # 新增核心到列表中
-    def add_cores(self):
+    def add_core(self):
         if -1 in self.select_skills:
             self.labelSelectError.setText('有未篩選核心')
             return
         
+        if self.select_skills in self.cores:
+            self.labelSelectError.setText('這顆核心重複了')
+            return
+        
         self.cores.append(self.select_skills)
 
-        # # 將資料變成label放到 擁有核心 列表內
-        # label = QtWidgets.QLabel(f"{self.select_skills}", self.scrollAreaWidgetContents)
-        # self.horizontalLayout.addWidget(label)
-        # self.scrollArea.horizontalScrollBar().setValue(self.scrollArea.horizontalScrollBar().maximum())
-
-        self.select_skills = [-1, -1, -1]
         self.reset_select_core_buttons()
         self.set_cores_button()
 
+    # 搜尋完美核心、顯示結果
     def find_perfect_cores(self):
         if not self.cores:
             self.labelSelectError.setText('核心列表是空的')
@@ -242,6 +255,7 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.ui.label.setText(text)
         self.sub_window.show()
 
+    # 合成核心圖片
     def synthesis_img(self, icons):
         width = icons[0].width()
         height = icons[0].height()
@@ -296,6 +310,7 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
 
         return mergedPixmap
     
+    # 清除核心列表所有物件
     def clear_cores_button(self):
         while self.horizontalLayout.count():
             item = self.horizontalLayout.takeAt(0)
@@ -303,10 +318,11 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             if widget is not None:
                 widget.deleteLater()
 
+    # 以cores設定所有核心button
     def set_cores_button(self):
         self.clear_cores_button()
         
-        for core in self.cores:
+        for skill_id, core in enumerate(self.cores):
             icons = []
             for index in core:
                 temp_button = self.button_skill_list[index]
@@ -321,7 +337,25 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             button.setFixedSize(61, 61)  # 設定按鈕大小
             button.setIconSize(button.size())
             button.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)  # 設置固定大小
+            button.clicked.connect(lambda checked, skill_id=skill_id: self.selected_cores_button(skill_id))
             self.horizontalLayout.addWidget(button)
+    
+    # 點選核心列表的核心       
+    def selected_cores_button(self, skill_id):
+        self.skill_id = skill_id
+        self.select_skills = self.cores[self.skill_id]
+        self.set_select_core_buttons()
+        self.buttonAddCore.clicked.disconnect()
+        self.buttonAddCore.clicked.connect(self.update_cores_skill)
+        self.buttonAddCore.setText('修改')
+
+    def update_cores_skill(self):
+        self.cores[self.skill_id] = self.select_skills
+        self.set_cores_button()
+        self.reset_select_core_buttons()
+        self.buttonAddCore.clicked.disconnect()
+        self.buttonAddCore.clicked.connect(self.add_core)
+        self.buttonAddCore.setText('新增')
 
 if __name__ == '__main__':
     import sys
