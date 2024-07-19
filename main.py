@@ -12,6 +12,32 @@ connect某物件做某動作連接到某function，function可以疊加
 disconnect將某物件做某動作所有連接的function刪除
 """
 
+class FindPerfectCores(QtCore.QThread):
+    # 當任務完成發出信號
+    finished = QtCore.pyqtSignal()
+
+    def __init__(self, cores, core_count, enumerate_mode, selected_perfect_cores):
+        super().__init__()
+        self.cores = cores
+        self.core_count = core_count
+        self.enumerate_mode = enumerate_mode
+        self.selected_perfect_cores = selected_perfect_cores
+        self.text = ''
+
+    def run(self):
+        perfect_core_combination = find_core_combinations(self.cores, self.core_count, self.enumerate_mode, self.selected_perfect_cores)
+        if perfect_core_combination:
+            for index, perfect_core in enumerate(perfect_core_combination):
+                self.text += f'-----第{index + 1}組解-----\n'
+                for i, core in enumerate(perfect_core):
+                    self.text += f'第{i + 1}顆核心：{core}\n'
+        else:
+            self.text = '未找到完美核心'
+
+        self.finished.emit()
+
+    def get_text(self):
+        return self.text
 
 class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
     def __init__(self):
@@ -55,8 +81,8 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         # 當職業名稱下拉列表變化時，更新技能按鈕圖示
         self.jobName.currentIndexChanged.connect(self.update_skill_image)
         # 載入、儲存使用者資料
-        self.buttonLoad.clicked.connect(self.get_select_perfect_cores)
-        self.buttonSave.clicked.connect(self.set_select_perfect_cores)
+        self.buttonLoad.clicked.connect(self.load_user_job_file)
+        self.buttonSave.clicked.connect(self.save_user_job_file)
         # 選擇核心
         self.buttonMainCore.clicked.connect(lambda: self.select_core_buttons('主要核心'))
         self.buttonSecondCore.clicked.connect(lambda: self.select_core_buttons('第二核心'))
@@ -240,16 +266,23 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
             self.labelSelectError.setText('請選擇完美核心')
             return
         
-        perfect_core_combination = find_core_combinations(cores, core_count, enumerate_mode, selected_perfect_cores)
-        text = ''
-        for index, perfect_core in enumerate(perfect_core_combination):
-            text += f'-----第{index + 1}組解-----\n'
-            for i, core in enumerate(perfect_core):
-                text += f'第{i + 1}顆核心：{core}\n'
+        self.buttonFindPerfectCore.setEnabled(False)
+        self.buttonAddCore.setEnabled(False)
+        self.labelSelectError.setText("正在尋找完美核心...")
 
+        self.findThread = FindPerfectCores(cores, core_count, enumerate_mode, selected_perfect_cores)
+        self.findThread.finished.connect(self.find_perfect_cores_finished)
+        self.findThread.start()
+
+    # 搜尋完後
+    def find_perfect_cores_finished(self):
         self.labelSelectError.setText('')
+        self.buttonFindPerfectCore.setEnabled(True)
+        self.buttonAddCore.setEnabled(True)
 
-        self.sub_window = QtWidgets.QWidget()  # 創建一個 QWidget 作為副視窗
+        text = self.findThread.get_text()
+        # 建立一副視窗顯示完美核心
+        self.sub_window = QtWidgets.QWidget()
         self.ui = formPerfectCores.Ui_formPerfectCores()
         self.ui.setupUi(self.sub_window)
         self.ui.label.setText(text)
@@ -349,6 +382,7 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.buttonAddCore.clicked.connect(self.update_cores_skill)
         self.buttonAddCore.setText('修改')
 
+    # 更新核心
     def update_cores_skill(self):
         self.cores[self.skill_id] = self.select_skills
         self.set_cores_button()
@@ -356,6 +390,67 @@ class Main(QtWidgets.QMainWindow, MSFindPerfectCoresUI.Ui_MSFindPerfectCores):
         self.buttonAddCore.clicked.disconnect()
         self.buttonAddCore.clicked.connect(self.add_core)
         self.buttonAddCore.setText('新增')
+
+    # 讀取使用者資料
+    def load_user_job_file(self):
+        # 打開選擇檔案的對話框
+        options = QtWidgets.QFileDialog.Options()
+        fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self, "選擇檔案", "", "JSON Files (*.json);;All Files (*)", options=options)
+
+        if fileName:
+            with open(fileName, 'r', encoding='utf-8') as file:
+                json_data = file.read()
+            user_data = json.loads(json_data)
+
+            try:
+                self.job.setCurrentText('全選')
+                self.jobGroup.setCurrentText('全選')
+                self.jobName.setCurrentText(user_data['jobName'])
+                self.select_perfect_cores = user_data['select_perfect_cores']
+                self.set_select_perfect_cores()
+                self.cores = user_data['cores']
+                self.set_cores_button()
+            except:
+                self.labelSelectError.setText('檔案錯誤')
+
+    # 儲存使用者資料
+    def save_user_job_file(self):
+        self.get_select_perfect_cores()
+        user_data = {
+            'jobName':self.jobName.currentText(),
+            'select_perfect_cores':self.select_perfect_cores,
+            'cores':self.cores
+        }
+        # 設定檔案初始位置
+        initialDir = os.path.dirname(os.path.abspath(__file__))
+        # 預設檔案名稱
+        defaultFileName = "job.json"
+        # 儲存檔案的對話框
+        options = QtWidgets.QFileDialog.Options()
+        fileName, _ = QtWidgets.QFileDialog.getSaveFileName(self, "儲存檔案", os.path.join(initialDir, defaultFileName), "JSON Files (*.json);;All Files (*)", options=options)
+
+        if fileName:
+            if not fileName.lower().endswith('.json'):
+                fileName += '.json'
+            with open(fileName, 'w') as file:
+                json.dump(user_data, file, indent=4)
+
+    # 新增資料(測試用)
+    def add_cores(self):
+        import random
+        selected_perfect_cores = [0,1,2,3,4,5,6,7,8]
+        for _ in range(100):
+            skills = []
+            while len(skills) < 3:
+                skill = random.randint(0,15)
+                if skill in skills or skill not in selected_perfect_cores:
+                    continue
+                skills.append(skill)
+            if skills in self.cores:
+                continue
+            self.cores.append(skills)
+
+        self.set_cores_button()
 
 if __name__ == '__main__':
     import sys

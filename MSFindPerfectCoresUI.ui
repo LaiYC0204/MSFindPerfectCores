@@ -17,7 +17,7 @@
    <cursorShape>ArrowCursor</cursorShape>
   </property>
   <property name="windowTitle">
-   <string>MSFindPerfectCores</string>
+   <string>我是好MS寶</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="selectJobGroupBox">

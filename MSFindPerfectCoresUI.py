@@ -236,7 +236,7 @@ class Ui_MSFindPerfectCores(object):
 
     def retranslateUi(self, MSFindPerfectCores):
         _translate = QtCore.QCoreApplication.translate
-        MSFindPerfectCores.setWindowTitle(_translate("MSFindPerfectCores", "MSFindPerfectCores"))
+        MSFindPerfectCores.setWindowTitle(_translate("MSFindPerfectCores", "我是好MS寶"))
         self.selectJobGroupBox.setTitle(_translate("MSFindPerfectCores", "職業選擇"))
         self.job.setItemText(0, _translate("MSFindPerfectCores", "全選"))
         self.job.setItemText(1, _translate("MSFindPerfectCores", "劍士"))
